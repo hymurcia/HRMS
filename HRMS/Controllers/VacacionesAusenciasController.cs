@@ -6,93 +6,92 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HRMS.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HRMS.Controllers
 {
-    public class AsistenciumController : Controller
+    [Authorize]
+    public class VacacionesAusenciasController : Controller
     {
         private readonly HrmssisContext _context;
 
-        public AsistenciumController(HrmssisContext context)
+        public VacacionesAusenciasController(HrmssisContext context)
         {
             _context = context;
         }
 
-        // GET: Asistencium
+        // GET: VacacionesAusencias
         public async Task<IActionResult> Index()
         {
-            var hrmssisContext = _context.Asistencia.Include(a => a.IdCedulaNavigation);
-            return View(await hrmssisContext.ToListAsync());
+              return _context.VacacionesAusencias != null ? 
+                          View(await _context.VacacionesAusencias.ToListAsync()) :
+                          Problem("Entity set 'HrmssisContext.VacacionesAusencias'  is null.");
         }
 
-        // GET: Asistencium/Details/5
+        // GET: VacacionesAusencias/Details/5
         public async Task<IActionResult> Details(long? id)
         {
-            if (id == null || _context.Asistencia == null)
+            if (id == null || _context.VacacionesAusencias == null)
             {
                 return NotFound();
             }
 
-            var asistencium = await _context.Asistencia
-                .Include(a => a.IdCedulaNavigation)
-                .FirstOrDefaultAsync(m => m.IdCedula == id);
-            if (asistencium == null)
+            var vacacionesAusencia = await _context.VacacionesAusencias
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (vacacionesAusencia == null)
             {
                 return NotFound();
             }
 
-            return View(asistencium);
+            return View(vacacionesAusencia);
         }
 
-        // GET: Asistencium/Create
+        // GET: VacacionesAusencias/Create
         public IActionResult Create()
         {
-            ViewData["IdCedula"] = new SelectList(_context.Empleados, "Cedula", "Cedula");
             return View();
         }
 
-        // POST: Asistencium/Create
+        // POST: VacacionesAusencias/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdCedula,Entrada,Salida,Calificacion")] Asistencium asistencium)
+        public async Task<IActionResult> Create([Bind("Id,Inicio,Finalizacion,Motivo,Estado")] VacacionesAusencia vacacionesAusencia)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(asistencium);
+                _context.Add(vacacionesAusencia);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdCedula"] = new SelectList(_context.Empleados, "Cedula", "Cedula", asistencium.IdCedula);
-            return View(asistencium);
+            return View(vacacionesAusencia);
         }
 
-        // GET: Asistencium/Edit/5
+        // GET: VacacionesAusencias/Edit/5
         public async Task<IActionResult> Edit(long? id)
         {
-            if (id == null || _context.Asistencia == null)
+            if (id == null || _context.VacacionesAusencias == null)
             {
                 return NotFound();
             }
 
-            var asistencium = await _context.Asistencia.FindAsync(id);
-            if (asistencium == null)
+            var vacacionesAusencia = await _context.VacacionesAusencias.FindAsync(id);
+            if (vacacionesAusencia == null)
             {
                 return NotFound();
             }
-            ViewData["IdCedula"] = new SelectList(_context.Empleados, "Cedula", "Cedula", asistencium.IdCedula);
-            return View(asistencium);
+            return View(vacacionesAusencia);
         }
 
-        // POST: Asistencium/Edit/5
+        // POST: VacacionesAusencias/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("IdCedula,Entrada,Salida,Calificacion")] Asistencium asistencium)
+        public async Task<IActionResult> Edit(long id, [Bind("Id,Inicio,Finalizacion,Motivo,Estado")] VacacionesAusencia vacacionesAusencia)
         {
-            if (id != asistencium.IdCedula)
+            if (id != vacacionesAusencia.Id)
             {
                 return NotFound();
             }
@@ -101,12 +100,12 @@ namespace HRMS.Controllers
             {
                 try
                 {
-                    _context.Update(asistencium);
+                    _context.Update(vacacionesAusencia);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AsistenciumExists(asistencium.IdCedula))
+                    if (!VacacionesAusenciaExists(vacacionesAusencia.Id))
                     {
                         return NotFound();
                     }
@@ -117,51 +116,49 @@ namespace HRMS.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdCedula"] = new SelectList(_context.Empleados, "Cedula", "Cedula", asistencium.IdCedula);
-            return View(asistencium);
+            return View(vacacionesAusencia);
         }
 
-        // GET: Asistencium/Delete/5
+        // GET: VacacionesAusencias/Delete/5
         public async Task<IActionResult> Delete(long? id)
         {
-            if (id == null || _context.Asistencia == null)
+            if (id == null || _context.VacacionesAusencias == null)
             {
                 return NotFound();
             }
 
-            var asistencium = await _context.Asistencia
-                .Include(a => a.IdCedulaNavigation)
-                .FirstOrDefaultAsync(m => m.IdCedula == id);
-            if (asistencium == null)
+            var vacacionesAusencia = await _context.VacacionesAusencias
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (vacacionesAusencia == null)
             {
                 return NotFound();
             }
 
-            return View(asistencium);
+            return View(vacacionesAusencia);
         }
 
-        // POST: Asistencium/Delete/5
+        // POST: VacacionesAusencias/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
-            if (_context.Asistencia == null)
+            if (_context.VacacionesAusencias == null)
             {
-                return Problem("Entity set 'HrmssisContext.Asistencia'  is null.");
+                return Problem("Entity set 'HrmssisContext.VacacionesAusencias'  is null.");
             }
-            var asistencium = await _context.Asistencia.FindAsync(id);
-            if (asistencium != null)
+            var vacacionesAusencia = await _context.VacacionesAusencias.FindAsync(id);
+            if (vacacionesAusencia != null)
             {
-                _context.Asistencia.Remove(asistencium);
+                _context.VacacionesAusencias.Remove(vacacionesAusencia);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AsistenciumExists(long id)
+        private bool VacacionesAusenciaExists(long id)
         {
-          return (_context.Asistencia?.Any(e => e.IdCedula == id)).GetValueOrDefault();
+          return (_context.VacacionesAusencias?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

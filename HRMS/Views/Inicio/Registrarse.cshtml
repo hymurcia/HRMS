@@ -1,0 +1,71 @@
+﻿@model HRMS.Models.Role;
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Registrarse</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+<body class="flex h-screen flex-col bg-slate-100 dark: bg-slate-900">
+
+
+    <div class="container mt-5 pt-5">
+
+        <div class="row justify-content-center">
+            <div class="col-12 col-xl-4 col-md-6">
+
+                <div class="card">
+                    <div class="card-header">
+                       Registrate
+                    </div>
+                    <div class="card-body">
+
+                        <form asp-controller="Inicio" asp-action="Registrarse" method="post">
+
+                            <input class="form-control mb-3" type="text" placeholder="Nombre" asp-for="Nombre" required />
+                            <input class="form-control mb-3" type="text" placeholder="Usuario" required asp-for="Usuario" required />
+                            <select class="form-control mb-3" asp-for="Rol" required>
+                                <option value="ADMIN">ADMIN</option>
+                                <option value="USER">USER</option>
+                            </select>
+                            <input class="form-control mb-3" type="password" placeholder="Clave" required asp-for="Clave" required />
+
+
+
+                            <!--Aqui el boton-->
+
+                           
+                            @if (ViewData["Mensaje"] != null)
+                            {
+
+                                <div class="form-group">
+                                    <div class="alert alert-danger" role="alert">
+                                        @ViewData["Mensaje"]
+                                    </div>
+                                </div>
+                            }
+                            <!-- ¿Ya tienes una cuenta? <a href="@Url.Action("IniciarSesion","Inicio")"> Iniciar Sesion</a>-->
+                            <div class="d-grid gap-2 mb-3">
+                                <button class="btn btn-outline-dark" type="submit">Registrate</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

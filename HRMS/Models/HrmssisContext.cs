@@ -29,33 +29,50 @@ public partial class HrmssisContext : DbContext
 
     public virtual DbSet<VacacionesAusencia> VacacionesAusencias { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=HRMSSIS.mssql.somee.com; Database=HRMSSIS;user id=hymurcia_SQLLogin_1;pwd=egle58qq16;TrustServerCertificate=true");
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder){}
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Asistencium>(entity =>
         {
-            entity.HasKey(e => e.IdCedula);
+            entity.HasKey(e => e.IdAsis).HasName("PK__asistenc__B015D886A06273B9");
 
             entity.ToTable("asistencia");
 
-            entity.Property(e => e.IdCedula)
-                .ValueGeneratedNever()
-                .HasColumnName("id_cedula");
+            entity.Property(e => e.IdAsis).HasColumnName("id_asis");
+
+            entity.Property(e => e.Entrada)
+               .IsUnicode(false)
+               .HasColumnName("entrada");
+            entity.Property(e => e.IdCedula).HasColumnName("id_cedula");
+           
+
+            entity.HasOne(d => d.IdCedulaNavigation).WithMany()
+                 .HasForeignKey(d => d.IdCedula)
+                 .OnDelete(DeleteBehavior.ClientSetNull)
+                 .HasConstraintName("FK_asistencia_empleado");
+            /*
+            entity.ToTable("asistencia");
+            entity.HasKey(e => e.Id_asis);
+
+            entity.Property(e => e.Id_asis)
+               .ValueGeneratedNever()
+               .HasColumnName("id_asis");
+
             entity.Property(e => e.Calificacion).HasColumnName("calificacion");
+           
             entity.Property(e => e.Entrada)
                 .HasColumnType("datetime")
                 .HasColumnName("entrada");
+            entity.Property(e => e.IdCedula).HasColumnName("id_cedula");
             entity.Property(e => e.Salida)
                 .HasColumnType("datetime")
                 .HasColumnName("salida");
 
-            entity.HasOne(d => d.IdCedulaNavigation).WithOne(p => p.Asistencium)
-                .HasForeignKey<Asistencium>(d => d.IdCedula)
+            entity.HasOne(d => d.IdCedulaNavigation).WithMany()
+                .HasForeignKey(d => d.IdCedula)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_asistencia_empleado");
+                .HasConstraintName("FK_asistencia_empleado");*/
         });
 
         modelBuilder.Entity<Departamento>(entity =>
@@ -77,17 +94,20 @@ public partial class HrmssisContext : DbContext
         {
             entity.HasKey(e => e.IdCedula);
 
-            entity.ToTable("documentos");
 
-            entity.Property(e => e.IdCedula)
-                .ValueGeneratedNever()
-                .HasColumnName("id_cedula");
+            entity.ToTable("documentos");
+            /*
+            entity
+                .HasNoKey()
+                .ToTable("documentos");*/
+
             entity.Property(e => e.Cedula).HasColumnName("cedula");
             entity.Property(e => e.Contrato).HasColumnName("contrato");
+            entity.Property(e => e.IdCedula).HasColumnName("id_cedula");
             entity.Property(e => e.Otros).HasColumnName("otros");
 
-            entity.HasOne(d => d.IdCedulaNavigation).WithOne(p => p.Documento)
-                .HasForeignKey<Documento>(d => d.IdCedula)
+            entity.HasOne(d => d.IdCedulaNavigation).WithMany()
+                .HasForeignKey(d => d.IdCedula)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_empleado_documentos");
         });
@@ -126,7 +146,7 @@ public partial class HrmssisContext : DbContext
 
             entity.HasOne(d => d.IdRolNavigation).WithMany(p => p.Empleados)
                 .HasForeignKey(d => d.IdRol)
-                .HasConstraintName("FK_empleado_rol");
+                .HasConstraintName("FK_Empleado_Roles");
         });
 
         modelBuilder.Entity<EmpleadoVacacione>(entity =>
@@ -149,13 +169,11 @@ public partial class HrmssisContext : DbContext
 
         modelBuilder.Entity<Role>(entity =>
         {
-            entity.HasKey(e => e.IdMaster);
+            entity.HasKey(e => e.IdMaster).HasName("PK__roles_ne__A51485034645EFE7");
 
             entity.ToTable("roles");
 
-            entity.Property(e => e.IdMaster)
-                .ValueGeneratedNever()
-                .HasColumnName("id_master");
+            entity.Property(e => e.IdMaster).HasColumnName("id_master");
             entity.Property(e => e.Clave)
                 .HasMaxLength(128)
                 .IsUnicode(false)
@@ -164,6 +182,10 @@ public partial class HrmssisContext : DbContext
                 .HasMaxLength(128)
                 .IsUnicode(false)
                 .HasColumnName("nombre");
+            entity.Property(e => e.Rol)
+                .HasMaxLength(128)
+                .IsUnicode(false)
+                .HasColumnName("rol");
             entity.Property(e => e.Usuario)
                 .HasMaxLength(128)
                 .IsUnicode(false)

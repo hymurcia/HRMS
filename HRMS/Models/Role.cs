@@ -13,5 +13,7 @@ public partial class Role
 
     public string? Clave { get; set; }
 
+    public string? Rol { get; set; }
+
     public virtual ICollection<Empleado> Empleados { get; set; } = new List<Empleado>();
 }

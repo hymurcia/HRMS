@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HRMS", "HRMS\HRMS.csproj", "{321252A6-E876-433E-A19E-7E003E89BFFF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HRMS", "HRMS\HRMS.csproj", "{0FABBA28-5726-49F5-A94D-73310F040E1E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{321252A6-E876-433E-A19E-7E003E89BFFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{321252A6-E876-433E-A19E-7E003E89BFFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{321252A6-E876-433E-A19E-7E003E89BFFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{321252A6-E876-433E-A19E-7E003E89BFFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FABBA28-5726-49F5-A94D-73310F040E1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FABBA28-5726-49F5-A94D-73310F040E1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FABBA28-5726-49F5-A94D-73310F040E1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FABBA28-5726-49F5-A94D-73310F040E1E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {8A242B1C-AC45-4401-9155-41B222470C12}
+		SolutionGuid = {47F06E52-F5A8-406A-8D8D-C9C52270FBAB}
 	EndGlobalSection
 EndGlobal

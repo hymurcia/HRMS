@@ -1,9 +1,14 @@
 ﻿using HRMS.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace HRMS.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -15,6 +20,13 @@ namespace HRMS.Controllers
 
         public IActionResult Index()
         {
+            ClaimsPrincipal claimuser = HttpContext.User;
+            string nombreUsuario = "";
+            if (claimuser.Identity.IsAuthenticated)
+            {
+                nombreUsuario = claimuser.Claims.Where(c => c.Type == ClaimTypes.Name).Select(c => c.Value).SingleOrDefault();
+            }
+            ViewData["nombreUsuario"] = nombreUsuario;
             return View();
         }
 
@@ -23,10 +35,38 @@ namespace HRMS.Controllers
             return View();
         }
 
+        
+        public IActionResult ViewEmpleado()
+        {
+            return View();
+        }
+
+      
+        public IActionResult ViewAdmin()
+        {
+            return View();
+        }
+
+        public IActionResult Documento()
+        {
+            return View();
+        }
+
+        public IActionResult Departamento()
+        {
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public async Task<IActionResult> CerrarSesion()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("IniciarSesion", "Inicio");
         }
     }
 }

@@ -17,18 +17,6 @@
             @Html.DisplayFor(model => model.Entrada)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Salida)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Salida)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Calificacion)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Calificacion)
-        </dd>
-        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.IdCedulaNavigation)
         </dt>
         <dd class = "col-sm-10">
@@ -37,6 +25,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.IdCedula">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model?.IdAsis">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

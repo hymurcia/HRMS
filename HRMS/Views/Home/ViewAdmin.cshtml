@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewData["Title"] = "ViewAdmin";
+}
+
+<h1 >@ViewData["Title"]</h1>
+
+<div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+    <ul class="navbar-nav flex-grow-1">
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Inicio" asp-action="Registrarse" style="border: 2px solid red;">Registrar Empleado o Admin</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Roles" asp-action="Index" style="border: 2px solid red;">Ver Roles</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Empleado" asp-action="Index" style="border: 2px solid red;">Registrar Empleado</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Departamento" asp-action="Index" style="border: 2px solid red;">Registrar Departamento</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Documento" asp-action="Index" style="border: 2px solid red;">Cargar Documentos</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="VacacionesAusenciasEmpleado" asp-action="Index" style="border: 2px solid blue;">Registrar Vacaciones o Ausencias</a>
+        </li>
+
+    </ul>
+</div>

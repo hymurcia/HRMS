@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HRMS.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HRMS.Controllers
 {
+    [Authorize]
     public class EmpleadoController : Controller
     {
         private readonly HrmssisContext _context;

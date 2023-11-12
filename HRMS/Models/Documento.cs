@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace HRMS.Models;
 
 public partial class Documento
 {
+    [Key]
     public long IdCedula { get; set; }
 
     public byte[]? Cedula { get; set; }

@@ -11,90 +11,87 @@ using Microsoft.AspNetCore.Authorization;
 namespace HRMS.Controllers
 {
     [Authorize]
-    public class DocumentoController : Controller
+    public class VacacionesAusenciasEmpleadoController : Controller
     {
         private readonly HrmssisContext _context;
 
-        public DocumentoController(HrmssisContext context)
+        public VacacionesAusenciasEmpleadoController(HrmssisContext context)
         {
             _context = context;
         }
 
-        // GET: Documento
+        // GET: VacacionesAusenciasEmpleado
         public async Task<IActionResult> Index()
         {
-            var hrmssisContext = _context.Documentos.Include(d => d.IdCedulaNavigation);
-            return View(await hrmssisContext.ToListAsync());
+              return _context.VacacionesAusencias != null ? 
+                          View(await _context.VacacionesAusencias.ToListAsync()) :
+                          Problem("Entity set 'HrmssisContext.VacacionesAusencias'  is null.");
         }
 
-        // GET: Documento/Details/5
+        // GET: VacacionesAusenciasEmpleado/Details/5
         public async Task<IActionResult> Details(long? id)
         {
-            if (id == null || _context.Documentos == null)
+            if (id == null || _context.VacacionesAusencias == null)
             {
                 return NotFound();
             }
 
-            var documento = await _context.Documentos
-                .Include(d => d.IdCedulaNavigation)
-                .FirstOrDefaultAsync(m => m.IdCedula == id);
-            if (documento == null)
+            var vacacionesAusencia = await _context.VacacionesAusencias
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (vacacionesAusencia == null)
             {
                 return NotFound();
             }
 
-            return View(documento);
+            return View(vacacionesAusencia);
         }
 
-        // GET: Documento/Create
+        // GET: VacacionesAusenciasEmpleado/Create
         public IActionResult Create()
         {
-            ViewData["IdCedula"] = new SelectList(_context.Empleados, "Cedula", "Cedula");
             return View();
         }
 
-        // POST: Documento/Create
+        // POST: VacacionesAusenciasEmpleado/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdCedula,Cedula,Contrato,Otros")] Documento documento)
+        public async Task<IActionResult> Create([Bind("Id,Inicio,Finalizacion,Motivo,Estado")] VacacionesAusencia vacacionesAusencia)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(documento);
+                _context.Add(vacacionesAusencia);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdCedula"] = new SelectList(_context.Empleados, "Cedula", "Cedula", documento.IdCedula);
-            return View(documento);
+            return View(vacacionesAusencia);
         }
 
-        // GET: Documento/Edit/5
+        // GET: VacacionesAusenciasEmpleado/Edit/5
         public async Task<IActionResult> Edit(long? id)
         {
-            if (id == null || _context.Documentos == null)
+            if (id == null || _context.VacacionesAusencias == null)
             {
                 return NotFound();
             }
 
-            var documento = await _context.Documentos.FindAsync(id);
-            if (documento == null)
+            var vacacionesAusencia = await _context.VacacionesAusencias.FindAsync(id);
+            if (vacacionesAusencia == null)
             {
                 return NotFound();
             }
-            ViewData["IdCedula"] = new SelectList(_context.Empleados, "Cedula", "Cedula", documento.IdCedula);
-            return View(documento);
+            return View(vacacionesAusencia);
         }
 
-        // POST: Documento/Edit/5
+        // POST: VacacionesAusenciasEmpleado/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("IdCedula,Cedula,Contrato,Otros")] Documento documento)
+        public async Task<IActionResult> Edit(long id, [Bind("Id,Inicio,Finalizacion,Motivo,Estado")] VacacionesAusencia vacacionesAusencia)
         {
-            if (id != documento.IdCedula)
+            if (id != vacacionesAusencia.Id)
             {
                 return NotFound();
             }
@@ -103,12 +100,12 @@ namespace HRMS.Controllers
             {
                 try
                 {
-                    _context.Update(documento);
+                    _context.Update(vacacionesAusencia);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DocumentoExists(documento.IdCedula))
+                    if (!VacacionesAusenciaExists(vacacionesAusencia.Id))
                     {
                         return NotFound();
                     }
@@ -119,51 +116,49 @@ namespace HRMS.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdCedula"] = new SelectList(_context.Empleados, "Cedula", "Cedula", documento.IdCedula);
-            return View(documento);
+            return View(vacacionesAusencia);
         }
 
-        // GET: Documento/Delete/5
+        // GET: VacacionesAusenciasEmpleado/Delete/5
         public async Task<IActionResult> Delete(long? id)
         {
-            if (id == null || _context.Documentos == null)
+            if (id == null || _context.VacacionesAusencias == null)
             {
                 return NotFound();
             }
 
-            var documento = await _context.Documentos
-                .Include(d => d.IdCedulaNavigation)
-                .FirstOrDefaultAsync(m => m.IdCedula == id);
-            if (documento == null)
+            var vacacionesAusencia = await _context.VacacionesAusencias
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (vacacionesAusencia == null)
             {
                 return NotFound();
             }
 
-            return View(documento);
+            return View(vacacionesAusencia);
         }
 
-        // POST: Documento/Delete/5
+        // POST: VacacionesAusenciasEmpleado/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
-            if (_context.Documentos == null)
+            if (_context.VacacionesAusencias == null)
             {
-                return Problem("Entity set 'HrmssisContext.Documentos'  is null.");
+                return Problem("Entity set 'HrmssisContext.VacacionesAusencias'  is null.");
             }
-            var documento = await _context.Documentos.FindAsync(id);
-            if (documento != null)
+            var vacacionesAusencia = await _context.VacacionesAusencias.FindAsync(id);
+            if (vacacionesAusencia != null)
             {
-                _context.Documentos.Remove(documento);
+                _context.VacacionesAusencias.Remove(vacacionesAusencia);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool DocumentoExists(long id)
+        private bool VacacionesAusenciaExists(long id)
         {
-          return (_context.Documentos?.Any(e => e.IdCedula == id)).GetValueOrDefault();
+          return (_context.VacacionesAusencias?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

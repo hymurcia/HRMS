@@ -16,12 +16,6 @@
                 @Html.DisplayNameFor(model => model.Entrada)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Salida)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Calificacion)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.IdCedulaNavigation)
             </th>
             <th></th>
@@ -34,18 +28,12 @@
                 @Html.DisplayFor(modelItem => item.Entrada)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Salida)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Calificacion)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.IdCedulaNavigation.Cedula)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.IdCedula">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdCedula">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdCedula">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.IdAsis">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.IdAsis">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdAsis">Delete</a>
             </td>
         </tr>
 }

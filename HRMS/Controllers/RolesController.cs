@@ -11,87 +11,88 @@ using Microsoft.AspNetCore.Authorization;
 namespace HRMS.Controllers
 {
     [Authorize]
-    public class DepartamentoController : Controller
+    public class RolesController : Controller
     {
         private readonly HrmssisContext _context;
 
-        public DepartamentoController(HrmssisContext context)
+        public RolesController(HrmssisContext context)
         {
             _context = context;
         }
 
-        // GET: Departamento
+        // GET: Roles
         public async Task<IActionResult> Index()
         {
-              return _context.Departamentos != null ? 
-                          View(await _context.Departamentos.ToListAsync()) :
-                          Problem("Entity set 'HrmssisContext.Departamentos'  is null.");
+              return _context.Roles != null ? 
+                          View(await _context.Roles.ToListAsync()) :
+                          Problem("Entity set 'HrmssisContext.Roles'  is null.");
         }
 
-        // GET: Departamento/Details/5
+        // GET: Roles/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Departamentos == null)
+            if (id == null || _context.Roles == null)
             {
                 return NotFound();
             }
 
-            var departamento = await _context.Departamentos
-                .FirstOrDefaultAsync(m => m.IdDepartamento == id);
-            if (departamento == null)
+            var role = await _context.Roles
+                .FirstOrDefaultAsync(m => m.IdMaster == id);
+            if (role == null)
             {
                 return NotFound();
             }
 
-            return View(departamento);
+            return View(role);
         }
 
-        // GET: Departamento/Create
+        // GET: Roles/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Departamento/Create
+        // POST: Roles/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdDepartamento,NombreDepartamento")] Departamento departamento)
+        public async Task<IActionResult> Create([Bind("IdMaster,Nombre,Usuario,Clave,Rol")] Role role)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(departamento);
+
+                _context.Add(role);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(departamento);
+            return View(role);
         }
 
-        // GET: Departamento/Edit/5
+        // GET: Roles/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Departamentos == null)
+            if (id == null || _context.Roles == null)
             {
                 return NotFound();
             }
 
-            var departamento = await _context.Departamentos.FindAsync(id);
-            if (departamento == null)
+            var role = await _context.Roles.FindAsync(id);
+            if (role == null)
             {
                 return NotFound();
             }
-            return View(departamento);
+            return View(role);
         }
 
-        // POST: Departamento/Edit/5
+        // POST: Roles/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdDepartamento,NombreDepartamento")] Departamento departamento)
+        public async Task<IActionResult> Edit(int id, [Bind("IdMaster,Nombre,Usuario,Clave,Rol")] Role role)
         {
-            if (id != departamento.IdDepartamento)
+            if (id != role.IdMaster)
             {
                 return NotFound();
             }
@@ -100,12 +101,12 @@ namespace HRMS.Controllers
             {
                 try
                 {
-                    _context.Update(departamento);
+                    _context.Update(role);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DepartamentoExists(departamento.IdDepartamento))
+                    if (!RoleExists(role.IdMaster))
                     {
                         return NotFound();
                     }
@@ -116,49 +117,49 @@ namespace HRMS.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(departamento);
+            return View(role);
         }
 
-        // GET: Departamento/Delete/5
+        // GET: Roles/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Departamentos == null)
+            if (id == null || _context.Roles == null)
             {
                 return NotFound();
             }
 
-            var departamento = await _context.Departamentos
-                .FirstOrDefaultAsync(m => m.IdDepartamento == id);
-            if (departamento == null)
+            var role = await _context.Roles
+                .FirstOrDefaultAsync(m => m.IdMaster == id);
+            if (role == null)
             {
                 return NotFound();
             }
 
-            return View(departamento);
+            return View(role);
         }
 
-        // POST: Departamento/Delete/5
+        // POST: Roles/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Departamentos == null)
+            if (_context.Roles == null)
             {
-                return Problem("Entity set 'HrmssisContext.Departamentos'  is null.");
+                return Problem("Entity set 'HrmssisContext.Roles'  is null.");
             }
-            var departamento = await _context.Departamentos.FindAsync(id);
-            if (departamento != null)
+            var role = await _context.Roles.FindAsync(id);
+            if (role != null)
             {
-                _context.Departamentos.Remove(departamento);
+                _context.Roles.Remove(role);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool DepartamentoExists(int id)
+        private bool RoleExists(int id)
         {
-          return (_context.Departamentos?.Any(e => e.IdDepartamento == id)).GetValueOrDefault();
+          return (_context.Roles?.Any(e => e.IdMaster == id)).GetValueOrDefault();
         }
     }
 }
